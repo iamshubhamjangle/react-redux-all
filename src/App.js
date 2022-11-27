@@ -1,43 +1,46 @@
 import React from "react";
 import "./style.css";
 import ComponentA from "./Components/ComponentA.js";
-import { connect } from "react-redux";
+import { CounterContext } from "./context";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-  }
+    this.increment = () => {
+      this.setState((prev) => {
+        return {
+          count: prev.count + 1,
+        };
+      });
+    };
 
-  componentDidMount() {}
+    this.decrement = () => {
+      this.setState((prev) => {
+        return {
+          count: prev.count - 1,
+        };
+      });
+    };
 
-  handleClick(type) {
-    this.props.modify({ type: type, payload: "" });
+    this.state = {
+      count: 10,
+      increment: this.increment,
+      decrement: this.decrement,
+    };
   }
 
   render() {
-    const { count } = this.props;
-
+    const { count } = this.state;
+    console.log("Render App");
     return (
-      <div>
+      <CounterContext.Provider value={this.state}>
         App Component: {count}
-        <button onClick={() => this.handleClick("increment")}>Increment</button>
-        <button onClick={() => this.handleClick("decrement")}>Decrement</button>
+        <button onClick={() => this.increment()}>Increment</button>
+        <button onClick={() => this.decrement()}>Decrement</button>
         <ComponentA />
-      </div>
+      </CounterContext.Provider>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    count: state.count,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    modify: (action) => dispatch(action),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
