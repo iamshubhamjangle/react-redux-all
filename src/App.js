@@ -1,46 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./style.css";
 import ComponentA from "./Components/ComponentA.js";
 import { CounterContext } from "./context";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.increment = () => {
-      this.setState((prev) => {
-        return {
-          count: prev.count + 1,
-        };
-      });
-    };
+function App() {
+  const [count, setCount] = React.useState(10);
 
-    this.decrement = () => {
-      this.setState((prev) => {
-        return {
-          count: prev.count - 1,
-        };
-      });
-    };
+  const updateCount = (actionType) => {
+    switch (actionType) {
+      case "increment":
+        setCount(count + 1);
+        return;
+      case "decrement":
+        setCount(count - 1);
+        return;
+    }
+  };
 
-    this.state = {
-      count: 10,
-      increment: this.increment,
-      decrement: this.decrement,
-    };
-  }
-
-  render() {
-    const { count } = this.state;
+  useEffect(() => {
     console.log("Render App");
-    return (
-      <CounterContext.Provider value={this.state}>
-        App Component: {count}
-        <button onClick={() => this.increment()}>Increment</button>
-        <button onClick={() => this.decrement()}>Decrement</button>
-        <ComponentA />
-      </CounterContext.Provider>
-    );
-  }
+  });
+
+  return (
+    <CounterContext.Provider value={{ count, updateCount }}>
+      App Component: {count}
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <button onClick={() => setCount(count - 1)}>Decrement</button>
+      <ComponentA />
+    </CounterContext.Provider>
+  );
 }
 
 export default App;

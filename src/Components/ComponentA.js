@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ComponentB from "./ComponentB";
 
-class ComponentA extends React.Component {
-  render() {
+function ComponentA() {
+  useEffect(() => {
     console.log("Render A");
-    return (
-      <div>
-        Component A
-        <ComponentB />
-      </div>
-    );
-  }
+  });
+
+  return (
+    <div>
+      Component A
+      <ComponentB />
+    </div>
+  );
 }
 
 export default ComponentA;

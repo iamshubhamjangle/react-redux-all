@@ -1,19 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ComponentC from "./ComponentC";
-import { CounterContext } from "../context";
 
-class ComponentB extends React.Component {
-  render() {
+function ComponentB() {
+  useEffect(() => {
     console.log("Render B");
-    return (
-      <div>
-        Component B
-        <CounterContext.Consumer>
-          {(state) => <ComponentC store={state} />}
-        </CounterContext.Consumer>
-      </div>
-    );
-  }
+  });
+
+  return (
+    <div>
+      Component B
+      <ComponentC />
+    </div>
+  );
 }
 
 export default ComponentB;
