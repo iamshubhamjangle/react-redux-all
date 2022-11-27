@@ -1,36 +1,25 @@
-import React from 'react';
-import './style.css';
-import ComponentA from './Components/ComponentA.js';
+import React from "react";
+import "./style.css";
+import ComponentA from "./Components/ComponentA.js";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+import { useSelector, useDispatch } from "react-redux";
 
-  componentDidMount() {
-    const { store } = this.props;
-    store.subscribe(() => {
-      this.forceUpdate();
-    });
-  }
+function App(props) {
+  const dispatch = useDispatch();
+  const count = useSelector((state) => state.count);
 
-  handleClick(type) {
-    const { store } = this.props;
-    store.dispatch({ type: type, payload: '' });
-  }
-
-  render() {
-    const { count } = this.props.store.getState();
-
-    return (
-      <div>
-        App Component: {count}
-        <button onClick={() => this.handleClick('increment')}>Increment</button>
-        <button onClick={() => this.handleClick('decrement')}>Decrement</button>
-        <ComponentA />
-      </div>
-    );
-  }
+  return (
+    <div>
+      App Component: {count}
+      <button onClick={() => dispatch({ type: "increment", payload: "" })}>
+        Increment
+      </button>
+      <button onClick={() => dispatch({ type: "decrement", payload: "" })}>
+        Decrement
+      </button>
+      <ComponentA />
+    </div>
+  );
 }
 
 export default App;
